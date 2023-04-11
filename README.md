@@ -37,15 +37,16 @@ We can describe SLIs as:
 
 ## Create a dashboard to measure our SLIs
 
-![SLIs panel](./docs/images/sliPanel.png)
+![SLIs panel](./docs/images/panel1.png)
+![SLIs panel](./docs/images/panel2.png)
 
 ## Tracing our Flask app
 
-![Jaeger UI](./docs/images/backendTracing.png)
+![Jaeger UI](./docs/images/backendtracing.png)
 
 ## Jaeger in dashboards
 
-![Grafana tracing panel](./docs/images/tracingPanel.png)
+![Grafana tracing panel](./docs/images/tracingpanel.png)
 
 ## Report error
 
