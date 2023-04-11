@@ -15,7 +15,7 @@
 
 ## Create a basic dashboard
 
-![Prometheus Dashboard](./docs/images/prometheusDashboard.png)
+![Prometheus Dashboard](./docs/images/prometheusdashboard.png)
 
 ## Describe SLO/SLI
 
@@ -93,7 +93,8 @@ SLO:
 
 ## Final dashboard
 
-![KPI monitoring dashboard](./docs/images/finalDashboard.png)
+![KPI monitoring dashboard](./docs/images/finaldashboard1.png)
+![KPI monitoring dashboard](./docs/images/finaldashboard2.png)
 
 + Application stats panel - This panel shows information about the application services.
 + Successful requests per minute - This panel shows the total number of successful requests per service.
