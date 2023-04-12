@@ -53,14 +53,22 @@ and we describe SLIs as below :
 ```markdown
 **TROUBLE TICKET**
 
-**Name**: Lutfi Ichsan
-**Date**: 04/12/2023 9:20:10 AM
-**Subject**: Error 40x showing up in backend and frontend services
-**Affected Area**: API requests
-**Severity**: High
+TROUBLE TICKET
 
-**Description**:
-it might be caused by path that not defined/available.
+Name: [Error on ./project/app/backend/app.py](./project/app/backend/app.py)
+
+Date: April 12 2023, 14:50:27.794
+
+Subject: Can not get any response for url "/star"
+
+Affected Area: [./project/app/backend/app.py](./project/app/backend/app.py) line no 62
+
+Severity: Critical
+
+Description: When we hit the backend api with url path "/star" with post request, it produce error and return 405
+status code. It might be caused by Method Not Allowed, the field must contain a list of methods that the target resource currently supports.
+
+![Here the error span](./docs/images/errortracing.png)
 ```
 
 ## Creating SLIs and SLOs
