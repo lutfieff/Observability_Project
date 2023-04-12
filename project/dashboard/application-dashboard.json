@@ -1,45 +1,12 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_JAEGER",
-      "label": "Jaeger",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "jaeger",
-      "pluginName": "Jaeger"
-    }
-  ],
-  "__requires": [
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "8.1.5"
-    },
-    {
-      "type": "datasource",
-      "id": "jaeger",
-      "name": "Jaeger",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "table",
-      "name": "Table",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -56,13 +23,17 @@
   },
   "description": "This dashboard displays information used to observe the Flask application.",
   "editable": true,
-  "gnetId": null,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,
+  "id": 27,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "description": "This panel shows information about the application services.",
       "fieldConfig": {
         "defaults": {
@@ -71,7 +42,8 @@
           },
           "custom": {
             "align": "auto",
-            "displayMode": "auto"
+            "displayMode": "auto",
+            "inspect": false
           },
           "decimals": 2,
           "mappings": [],
@@ -100,11 +72,22 @@
       },
       "id": 8,
       "options": {
+        "footer": {
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
         "showHeader": true
       },
-      "pluginVersion": "8.1.5",
+      "pluginVersion": "9.3.8",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "exemplar": true,
           "expr": "count by (instance, namespace, container) (kube_pod_container_info{container=~\"backend|frontend\"})",
           "format": "table",
@@ -115,6 +98,10 @@
           "refId": "Get container info"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "exemplar": true,
           "expr": "max by (container) (time() - container_start_time_seconds{container=~\"backend|frontend\"})",
           "format": "table",
@@ -154,7 +141,10 @@
       "type": "table"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "description": "This panel shows the total number of successful requests per service.",
       "fieldConfig": {
         "defaults": {
@@ -162,6 +152,8 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "Number of requests",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -223,15 +215,21 @@
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "multi"
+          "mode": "multi",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.1.5",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "exemplar": true,
           "expr": "count by (container, status) (rate(flask_http_request_duration_seconds_count{container=~\"backend|frontend\",status=~\"200\"}[1m]))",
           "instant": false,
@@ -241,11 +239,14 @@
           "refId": "Count successful requests per container"
         }
       ],
-      "title": "Successful requests per minute",
+      "title": "Success Request",
       "type": "timeseries"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "description": "This panel shows the total number of 40x and 50x error requests per service.",
       "fieldConfig": {
         "defaults": {
@@ -253,6 +254,8 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "Number of requests",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -310,15 +313,21 @@
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "multi"
+          "mode": "multi",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.1.5",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "exemplar": true,
           "expr": "count by (container, status) (rate(flask_http_request_duration_seconds_count{container=~\"backend|frontend\",status=~\"(^40\\\\d)\"}[1m]))",
           "interval": "",
@@ -327,6 +336,10 @@
           "refId": "Get 40x errors"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "exemplar": true,
           "expr": "count by (container, status) (rate(flask_http_request_duration_seconds_count{container=~\"backend|frontend\",status=~\"(^50\\\\d)\"}[1m]))",
           "hide": false,
@@ -336,13 +349,14 @@
           "refId": "A"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Error requests per minute",
+      "title": "Error Requests",
       "type": "timeseries"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "description": "This panel shows the average response time successful requests (status 200) per service.",
       "fieldConfig": {
         "defaults": {
@@ -350,6 +364,8 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "Time (ms)",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -411,15 +427,21 @@
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "multi"
+          "mode": "multi",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.1.5",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "exemplar": true,
           "expr": "(sum(rate(flask_http_request_duration_seconds_sum{container=~\"backend\",status=\"200\"}[1m])) / sum(rate(flask_http_request_duration_seconds_count{container=~\"backend\",status=\"200\"}[1m]))) * 1000\n",
           "instant": false,
@@ -429,6 +451,10 @@
           "refId": "Average response time for backend service"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "exemplar": true,
           "expr": "(sum(rate(flask_http_request_duration_seconds_sum{container=~\"frontend\",status=\"200\"}[1m])) / sum(rate(flask_http_request_duration_seconds_count{container=~\"frontend\",status=\"200\"}[1m]))) * 1000\n",
           "hide": false,
@@ -439,11 +465,14 @@
           "refId": "Average response time for frontend service"
         }
       ],
-      "title": "Average response time per minute",
+      "title": "Average Response Time",
       "type": "timeseries"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "description": "This panel shows the average memory used by each service.",
       "fieldConfig": {
         "defaults": {
@@ -451,7 +480,9 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisLabel": "Memory (GB)",
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Memory (MB)",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
@@ -508,36 +539,38 @@
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.1.5",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "sum(rate(process_resident_memory_bytes{job=\"backend\"}[1m])) * 1e-9",
+          "expr": "sum(\n    container_memory_working_set_bytes{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", namespace=\"default\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{namespace=\"default\", workload_type=\"deployment\"}\n) by (workload, workload_type) / 1048576",
           "interval": "",
-          "legendFormat": "backend",
+          "legendFormat": "{{workload}}",
+          "range": true,
           "refId": "Average memory used by backend service"
-        },
-        {
-          "exemplar": true,
-          "expr": "- sum(rate(process_resident_memory_bytes{job=\"frontend\"}[1m])) * 1e-9",
-          "hide": false,
-          "instant": false,
-          "interval": "",
-          "legendFormat": "frontend",
-          "refId": "Average memory used by frontend service"
         }
       ],
-      "title": "Average memory used per minute",
+      "title": "Average Memory",
       "type": "timeseries"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "description": "This panel shows the average CPU used by each service.",
       "fieldConfig": {
         "defaults": {
@@ -545,7 +578,9 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "axisLabel": "CPU (%)",
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "CPU",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
@@ -604,43 +639,46 @@
             "max"
           ],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.1.5",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "sum(rate(process_cpu_seconds_total{job=\"backend\"}[1m])) * 100",
+          "expr": "sum(\n  node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{namespace=\"default\"}\n* on(namespace,pod)\n  group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{namespace=\"default\", workload_type=\"deployment\"}\n) by (workload, workload_type)\n",
           "instant": false,
           "interval": "",
-          "legendFormat": "backend",
+          "legendFormat": "{{workload}} ",
           "refId": "Average CPU used by backend service"
-        },
-        {
-          "exemplar": true,
-          "expr": "sum(rate(process_cpu_seconds_total{job=\"frontend\"}[1m])) * 100",
-          "hide": false,
-          "instant": false,
-          "interval": "",
-          "legendFormat": "frontend",
-          "refId": "Average CPU used by frontend service"
         }
       ],
-      "title": "Average CPU used per minute",
+      "title": "Average CPU Used",
       "type": "timeseries"
     },
     {
-      "datasource": null,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -697,36 +735,51 @@
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.1.5",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "sum(rate(container_network_receive_bytes_total{node=\"localhost\"}[1m]))",
+          "expr": "(sum(irate(container_network_receive_packets_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload,workload_type) namespace_workload_pod:kube_pod_owner:relabel{namespace=\"default\", workload=~\".+\", workload_type=\"deployment\"}) by (workload))",
           "hide": false,
           "interval": "10s",
-          "legendFormat": "Received",
+          "legendFormat": "{{ workload }} - Received",
+          "range": true,
           "refId": "C"
         },
         {
-          "exemplar": true,
-          "expr": "-sum(rate(container_network_receive_bytes_total{node=\"localhost\"}[1m]))",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "editorMode": "code",
+          "expr": "- (sum(irate(container_network_transmit_packets_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", namespace=\"default\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload,workload_type) namespace_workload_pod:kube_pod_owner:relabel{namespace=\"default\", workload=~\".+\", workload_type=\"deployment\"}) by (workload))",
           "hide": false,
-          "interval": "10s",
-          "legendFormat": "Sent",
-          "refId": "D"
+          "legendFormat": "{{ workload }} - Transmitted",
+          "range": true,
+          "refId": "A"
         }
       ],
-      "title": "Network I/O Pressure",
+      "title": "Network I/O",
       "type": "timeseries"
     },
     {
-      "datasource": "-- Mixed --",
+      "datasource": {
+        "type": "datasource",
+        "uid": "-- Mixed --"
+      },
       "description": "This panel displays information about all the traces generated by Jaeger.",
       "fieldConfig": {
         "defaults": {
@@ -735,7 +788,8 @@
           },
           "custom": {
             "align": "auto",
-            "displayMode": "auto"
+            "displayMode": "auto",
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -762,16 +816,26 @@
       },
       "id": 4,
       "options": {
+        "footer": {
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
         "showHeader": true
       },
-      "pluginVersion": "8.1.5",
+      "pluginVersion": "9.3.8",
       "targets": [
         {
-          "datasource": "${DS_JAEGER}",
+          "datasource": {
+            "type": "jaeger",
+            "uid": "GOYvIlYVz"
+          },
           "query": "c2053b9",
           "queryType": "search",
           "refId": "Get traces",
-          "service": "backend",
+          "service": "jaeger-query",
           "tags": ""
         }
       ],
@@ -800,11 +864,12 @@
     }
   ],
   "refresh": "10s",
-  "schemaVersion": 30,
+  "schemaVersion": 37,
   "style": "dark",
   "tags": [
     "flask",
-    "application"
+    "application",
+    "observability"
   ],
   "templating": {
     "list": []
@@ -814,8 +879,9 @@
     "to": "now"
   },
   "timepicker": {},
-  "timezone": "utc",
+  "timezone": "Asia/Jakarta",
   "title": "Application",
   "uid": "0_V_c4D7z",
-  "version": 14
+  "version": 4,
+  "weekStart": ""
 }
