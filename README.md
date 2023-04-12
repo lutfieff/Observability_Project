@@ -50,7 +50,6 @@ and we describe SLIs as below :
 
 ## Report error
 
-```markdown
 **TROUBLE TICKET**
 
 TROUBLE TICKET
@@ -69,7 +68,6 @@ Description: When we hit the backend api with url path "/star" with post request
 status code. It might be caused by Method Not Allowed, the field must contain a list of methods that the target resource currently supports.
 
 ![Here the error span](./docs/images/errortracing.png)
-```
 
 ## Creating SLIs and SLOs
 
